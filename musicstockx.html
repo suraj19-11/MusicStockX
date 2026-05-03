@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MusicStockX — Own the Music. Earn the Royalties.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#C9A84C;--gold-light:#E8C96A;--gold-dim:#8a6e2f;
+  --bg:#0A0A0A;--bg2:#111111;--bg3:#181818;--bg4:#222222;
+  --text:#F0EDE4;--text2:#9C9888;--text3:#5A5750;
+  --border:rgba(201,168,76,0.18);--border2:rgba(201,168,76,0.08);
+  --green:#3DCC8E;--red:#E05050;--r:4px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:700;line-height:1.1;}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;animation:pgIn .35s ease;}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 44px;height:64px;background:rgba(10,10,10,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--gold);cursor:pointer;letter-spacing:-0.5px;user-select:none;}
+.nav-logo span{color:var(--text);font-weight:400;font-style:italic;}
+.nav-links{display:flex;gap:24px;align-items:center;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:color .2s;padding:4px 0;border-bottom:1px solid transparent;}
+.nav-links a:hover,.nav-links a.act{color:var(--gold);border-bottom-color:var(--gold);}
+.nav-right{display:flex;gap:10px;align-items:center;}
+.btn-p{background:var(--gold);color:#000;border:none;cursor:pointer;padding:9px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-radius:var(--r);transition:all .2s;}
+.btn-p:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-o{background:transparent;color:var(--text);cursor:pointer;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);border-radius:var(--r);transition:all .2s;}
+.btn-o:hover{border-color:var(--gold);color:var(--gold);}
+.btn-g{background:transparent;color:var(--text2);cursor:pointer;padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;border:none;border-radius:var(--r);transition:all .2s;}
+.btn-g:hover{color:var(--text);background:var(--bg3);}
+.nav-avatar{width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.15);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);font-weight:600;cursor:pointer;}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1160px;margin:0 auto;padding:0 44px;}
+.pt{padding-top:64px;}
+.sec{padding:72px 0;}
+
+/* ── TICKER ── */
+.ticker-wrap{background:var(--bg2);border-bottom:1px solid var(--border2);padding:10px 0;overflow:hidden;position:relative;margin-top:64px;}
+.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;}
+.ticker-wrap::before{left:0;background:linear-gradient(to right,var(--bg2),transparent);}
+.ticker-wrap::after{right:0;background:linear-gradient(to left,var(--bg2),transparent);}
+.ticker{display:flex;gap:40px;white-space:nowrap;animation:tk 32s linear infinite;}
+.ti{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;}
+.td{width:5px;height:5px;background:var(--gold);border-radius:50%;opacity:.5;}
+.tn{color:var(--text2);letter-spacing:.06em;}
+.tp{color:var(--text);font-weight:500;}
+.up{color:var(--green)}.dn{color:var(--red)}
+@keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── HERO ── */
+.hero{min-height:calc(100vh - 64px);display:flex;flex-direction:column;justify-content:center;padding:70px 0 60px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 65% 40%,rgba(201,168,76,.07) 0%,transparent 65%),radial-gradient(ellipse 35% 40% at 15% 80%,rgba(201,168,76,.04) 0%,transparent 50%);pointer-events:none;}
+.hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:10px;opacity:0;animation:fu .8s .1s forwards;}
+.hero-tag::before{content:'';width:26px;height:1px;background:var(--gold);}
+.hero-h1{font-size:clamp(46px,6.5vw,86px);max-width:700px;margin-bottom:18px;opacity:0;animation:fu .9s .25s forwards;}
+.hero-h1 em{color:var(--gold);font-style:italic;}
+.hero-sub{font-size:17px;color:var(--text2);max-width:490px;margin-bottom:38px;line-height:1.75;font-weight:300;opacity:0;animation:fu .9s .4s forwards;}
+.hero-actions{display:flex;gap:12px;align-items:center;opacity:0;animation:fu .9s .55s forwards;}
+.hero-stats{display:flex;gap:40px;margin-top:60px;padding-top:36px;border-top:1px solid var(--border2);opacity:0;animation:fu .9s .7s forwards;flex-wrap:wrap;}
+.sn{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1;}
+.sl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;}
+.wave{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:3px;height:200px;padding-right:44px;opacity:0;animation:fi 1.2s 1s forwards;}
+.wb{width:3px;background:var(--gold);border-radius:2px;animation:wv 1.4s ease-in-out infinite;opacity:.45;}
+@keyframes wv{0%,100%{transform:scaleY(.12)}50%{transform:scaleY(1)}}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+
+/* ── SECTION COMMON ── */
+.lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.lbl::before{content:'';width:20px;height:1px;background:var(--gold);}
+.stitle{font-size:clamp(26px,3.5vw,42px);margin-bottom:10px;}
+.ssub{font-size:15px;color:var(--text2);max-width:470px;line-height:1.7;font-weight:300;}
+
+/* ── CARDS SHARED ── */
+.card{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;}
+.card.gold-top::before{content:'';display:block;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold),transparent);border-radius:8px 8px 0 0;}
+
+/* ── HOME MINI HOW ── */
+.hiw{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px;}
+.hc{padding:22px 18px;border:1px solid var(--border2);border-radius:8px;background:var(--bg2);transition:border-color .2s;cursor:default;}
+.hc:hover{border-color:var(--border);}
+.hn{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--border2);line-height:1;margin-bottom:10px;}
+.hc h4{font-size:14px;margin-bottom:5px;}
+.hc p{font-size:12px;color:var(--text2);}
+
+/* ── HOME FEATURED ── */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;}
+.fc{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:20px;cursor:pointer;transition:all .2s;}
+.fc:hover{border-color:var(--border);transform:translateY(-2px);}
+.fe{font-size:30px;margin-bottom:10px;}
+.ft{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:2px;}
+.fa{font-size:12px;color:var(--text2);margin-bottom:10px;}
+.fr{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2);}
+.fp{font-family:'DM Mono',monospace;font-size:15px;color:var(--gold);}
+.fy{font-family:'DM Mono',monospace;font-size:12px;color:var(--green);}
+
+/* ── HOW IT WORKS PAGE ── */
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:8px;overflow:hidden;margin-top:48px;}
+.sc{background:var(--bg2);padding:32px 26px;transition:background .3s;}
+.sc:hover{background:var(--bg3);}
+.scn{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--border2);line-height:1;margin-bottom:14px;}
+.sci{width:36px;height:36px;border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:12px;}
+.sc h3{font-size:16px;margin-bottom:7px;}
+.sc p{font-size:13px;color:var(--text2);line-height:1.6;}
+.kyc-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;}
+.kc{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:24px;transition:border-color .3s;}
+.kc:hover{border-color:var(--border);}
+.kb{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;background:rgba(61,204,142,.1);color:var(--green);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;border-radius:20px;margin-bottom:12px;}
+.kc h4{font-size:15px;margin-bottom:6px;}
+.kc p{font-size:13px;color:var(--text2);line-height:1.6;}
+.formula-box{margin-top:48px;padding:28px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;position:relative;overflow:hidden;}
+.formula-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold),transparent);}
+.code-block{font-family:'DM Mono',monospace;font-size:13px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:18px;line-height:2.2;margin-top:16px;}
+
+/* ── MARKETPLACE ── */
+.mtoolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:14px;}
+.ftabs{display:flex;gap:7px;}
+.ftab{padding:7px 14px;font-size:12px;font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;border-radius:var(--r);transition:all .2s;}
+.ftab.act,.ftab:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.05);}
+.songs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:8px;overflow:hidden;}
+.scard{background:var(--bg);overflow:hidden;cursor:pointer;transition:background .25s;}
+.scard:hover{background:var(--bg2);}
+.sart{width:100%;aspect-ratio:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(201,168,76,.12);animation:rp 3s ease-in-out infinite;}
+@keyframes rp{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.08);opacity:.2}}
+.semoji{font-size:38px;position:relative;z-index:1;}
+.pov{position:absolute;inset:0;background:rgba(201,168,76,.08);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;z-index:2;}
+.scard:hover .pov{opacity:1;}
+.pbtn{width:48px;height:48px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000;font-size:15px;transform:scale(.85);transition:transform .2s;}
+.scard:hover .pbtn{transform:scale(1);}
+.sinfo{padding:16px 20px 20px;}
+.sg{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:4px;}
+.stitle2{font-family:'Playfair Display',serif;font-size:18px;margin-bottom:2px;}
+.sartist{font-size:13px;color:var(--text2);margin-bottom:10px;}
+.prog-w{margin-bottom:12px;}
+.prog-l{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px;}
+.prog-b{height:2px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.prog-f{height:100%;background:linear-gradient(to right,var(--gold-dim),var(--gold));border-radius:2px;}
+.sfooter{display:flex;justify-content:space-between;align-items:flex-end;padding-top:12px;border-top:1px solid var(--border2);}
+.plbl{font-size:11px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;}
+.pval{font-family:'DM Mono',monospace;font-size:19px;color:var(--gold);}
+.ylbl{font-size:11px;color:var(--text3);}
+.yval{font-family:'DM Mono',monospace;font-size:14px;color:var(--green);}
+.sbtn{width:100%;margin-top:12px;background:transparent;color:var(--gold);border:1px solid var(--border);cursor:pointer;padding:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:var(--r);transition:all .2s;}
+.sbtn:hover{background:var(--gold);color:#000;border-color:var(--gold);}
+
+/* ── DETAIL PAGE ── */
+.back-btn{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text3);cursor:pointer;margin-bottom:20px;transition:color .2s;width:fit-content;}
+.back-btn:hover{color:var(--gold);}
+.dl{display:grid;grid-template-columns:1fr 360px;gap:44px;align-items:start;}
+.dart{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:72px;border:1px solid var(--border2);position:relative;overflow:hidden;}
+.dg{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;}
+.dt{font-size:clamp(28px,4vw,48px);margin-bottom:4px;}
+.dar{font-size:15px;color:var(--text2);margin-bottom:20px;}
+.ddesc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+.dstats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.dst{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:14px;}
+.dsl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;}
+.dsv{font-family:'DM Mono',monospace;font-size:17px;color:var(--text);}
+.dsv.gold{color:var(--gold);}.dsv.green{color:var(--green);}
+.buy-panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:26px;position:sticky;top:80px;}
+.buy-panel::before{content:'';display:block;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold));margin:-26px -26px 20px;border-radius:8px 8px 0 0;}
+
+/* ── WALLET ── */
+.wov{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:32px;}
+.wc{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;}
+.wc.main{border-color:var(--border);background:var(--bg3);}
+.wc.main::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold-dim),var(--gold));}
+.wlbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+.wval{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);line-height:1;}
+.wsub{font-size:11px;color:var(--text3);margin-top:3px;}
+.wbody{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.panel{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:24px;}
+.ptitle{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border2);}
+.txn-list{display:flex;flex-direction:column;gap:1px;}
+.txi{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:var(--r);transition:background .2s;}
+.txi:hover{background:var(--bg3);}
+.txic{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.txic.cr{background:rgba(61,204,142,.1);color:var(--green);}
+.txic.db{background:rgba(224,80,80,.1);color:var(--red);}
+.txic.nf{background:rgba(201,168,76,.1);color:var(--gold);}
+.txd{flex:1;}
+.txt{font-size:13px;margin-bottom:1px;}
+.txdt{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+.txa{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;}
+.txa.cr{color:var(--green);}.txa.db{color:var(--red);}
+.hl-list{display:flex;flex-direction:column;gap:8px;}
+.hl{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border-radius:var(--r);transition:background .2s;cursor:pointer;}
+.hl:hover{background:var(--bg3);}
+.hi{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.hif{flex:1;}
+.ht{font-size:13px;margin-bottom:1px;}
+.ha{font-size:11px;color:var(--text3);}
+.hr{text-align:right;}
+.hq{font-family:'DM Mono',monospace;font-size:15px;color:var(--gold);}
+.hql{font-size:10px;color:var(--text3);}
+.he{font-family:'DM Mono',monospace;font-size:11px;color:var(--green);margin-top:1px;}
+
+/* ── ROYALTIES ── */
+.rg{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;}
+.cp{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:26px;}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
+.ct{font-size:13px;color:var(--text2);}
+.cv{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);}
+.bc{display:flex;align-items:flex-end;gap:7px;height:140px;margin-bottom:6px;}
+.bw{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.bar{width:100%;border-radius:2px 2px 0 0;background:linear-gradient(to top,var(--gold-dim),var(--gold));opacity:.7;transition:opacity .2s;cursor:pointer;position:relative;}
+.bar:hover{opacity:1;}
+.btt{display:none;position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:3px 7px;font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;}
+.bar:hover .btt{display:block;}
+.bl{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+.rh{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:26px;}
+.rht{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;}
+.ri{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border2);}
+.ri:last-child{border-bottom:none;}
+.rim{font-size:13px;}
+.rir{text-align:right;}
+.ria{font-family:'DM Mono',monospace;font-size:14px;color:var(--green);}
+.ris{font-size:11px;color:var(--text3);}
+.stable{width:100%;border-collapse:collapse;margin-top:8px;}
+.stable th{text-align:left;padding:9px 14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border2);font-weight:400;}
+.stable td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border2);transition:background .2s;}
+.stable tr:hover td{background:var(--bg2);}
+.mono{font-family:'DM Mono',monospace;font-size:12px;}
+.bdg{display:inline-flex;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.04em;}
+.bdg.s{background:rgba(61,204,142,.1);color:var(--green);}
+.bdg.p{background:rgba(201,168,76,.1);color:var(--gold);}
+
+/* ── SECURITY ── */
+.sec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:8px;overflow:hidden;margin-top:44px;}
+.sec-c{background:var(--bg2);padding:28px;transition:background .3s;}
+.sec-c:hover{background:var(--bg3);}
+.sec-i{font-size:24px;margin-bottom:12px;}
+.sec-c h3{font-size:15px;margin-bottom:6px;}
+.sec-c p{font-size:13px;color:var(--text2);line-height:1.6;}
+.comp-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px;}
+.cc{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:20px;display:flex;gap:13px;align-items:flex-start;transition:border-color .2s;}
+.cc:hover{border-color:var(--border);}
+.ck{width:22px;height:22px;border-radius:50%;background:rgba(61,204,142,.1);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;}
+.cc h4{font-size:13px;margin-bottom:4px;}
+.cc p{font-size:12px;color:var(--text2);line-height:1.6;}
+
+/* ── AUTH MODAL ── */
+.mbg{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px;}
+.mbg.open{display:flex;}
+.mbox{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:36px;width:460px;max-width:100%;position:relative;animation:pgIn .3s ease;max-height:90vh;overflow-y:auto;}
+.mbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);border-radius:12px 12px 0 0;}
+.mclose{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:20px;line-height:1;transition:color .2s;}
+.mclose:hover{color:var(--text);}
+.mtabs{display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;}
+.mtab{flex:1;padding:8px;background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text3);transition:all .2s;}
+.mtab.act{background:var(--gold);color:#000;font-weight:500;}
+.step-dots{display:flex;gap:5px;justify-content:center;margin-bottom:20px;}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .2s;}
+.sdot.act{background:var(--gold);}
+.ig{margin-bottom:16px;}
+.il{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:block;}
+.inp{width:100%;padding:10px 13px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+.inp:focus{border-color:var(--gold);}
+.inp::placeholder{color:var(--text3);}
+.otp-row{display:flex;gap:7px;}
+.oi{flex:1;text-align:center;font-family:'DM Mono',monospace;font-size:20px;padding:11px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);color:var(--gold);outline:none;transition:border-color .2s;}
+.oi:focus{border-color:var(--gold);}
+.rbtn{width:100%;padding:12px;background:linear-gradient(135deg,var(--gold-dim),var(--gold));border:none;cursor:pointer;border-radius:var(--r);color:#000;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:opacity .2s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.rbtn:hover{opacity:.9;transform:translateY(-1px);}
+.snote{text-align:center;margin-top:9px;font-size:11px;color:var(--text3);}
+.aswitch{text-align:center;margin-top:14px;font-size:13px;color:var(--text3);}
+.aswitch a{color:var(--gold);cursor:pointer;}
+.err{background:rgba(224,80,80,.08);border:1px solid rgba(224,80,80,.2);border-radius:var(--r);padding:9px 12px;font-size:12px;color:var(--red);margin-bottom:12px;display:none;}
+
+/* ── BUY MODAL ── */
+.qrow{display:flex;align-items:center;gap:9px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:3px;}
+.qbtn{width:34px;height:34px;background:var(--bg4);border:none;cursor:pointer;color:var(--text);font-size:17px;border-radius:2px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.qbtn:hover{background:rgba(201,168,76,.15);color:var(--gold);}
+.qd{flex:1;text-align:center;font-family:'DM Mono',monospace;font-size:18px;}
+.pb{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:13px;margin:14px 0;}
+.pbr{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;}
+.pbr.tot{border-top:1px solid var(--border2);margin-top:5px;padding-top:11px;}
+.pbl{color:var(--text2);}
+.pbv{font-family:'DM Mono',monospace;color:var(--text);}
+.pbr.tot .pbv{color:var(--gold);font-size:15px;font-weight:500;}
+
+/* ── WITHDRAW MODAL ── */
+.fwarn{background:rgba(224,80,80,.08);border:1px solid rgba(224,80,80,.2);border-radius:var(--r);padding:9px 12px;font-size:12px;color:var(--red);margin-bottom:12px;}
+
+/* ── LOCKED ── */
+.locked{text-align:center;padding:80px 32px;}
+.lock-icon{font-size:46px;margin-bottom:14px;}
+.locked h2{font-size:24px;margin-bottom:8px;}
+.locked p{font-size:14px;color:var(--text2);margin-bottom:24px;}
+.locked-btns{display:flex;gap:10px;justify-content:center;}
+
+/* ── FOOTER ── */
+footer{background:var(--bg2);border-top:1px solid var(--border2);padding:36px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;}
+.flogo{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:var(--gold);}
+.flinks{display:flex;gap:18px;}
+.flinks a{font-size:12px;color:var(--text3);text-decoration:none;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:color .2s;}
+.flinks a:hover{color:var(--gold);}
+.fcopy{font-size:12px;color:var(--text3);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;z-index:9000;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 18px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transform:translateY(16px);opacity:0;transition:all .3s;max-width:310px;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.suc{border-color:rgba(61,204,142,.3);}
+
+/* ── CTA ── */
+.cta{background:var(--bg2);border-top:1px solid var(--border2);padding:72px 44px;text-align:center;position:relative;overflow:hidden;}
+.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 50% 50%,rgba(201,168,76,.06) 0%,transparent 70%);pointer-events:none;}
+.cta h2{font-size:clamp(26px,4vw,48px);margin-bottom:14px;max-width:540px;margin-inline:auto;}
+.cta p{font-size:15px;color:var(--text2);margin-bottom:28px;max-width:400px;margin-inline:auto;}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 18px;}.wrap{padding:0 18px;}
+  .nav-links{display:none;}
+  .hero-h1{font-size:40px;}.wave{display:none;}
+  .hero-stats{gap:20px;}
+  .hiw,.steps-grid,.feat-grid,.songs-grid,.sec-grid{grid-template-columns:1fr 1fr;}
+  .wov,.kyc-steps,.comp-row{grid-template-columns:1fr 1fr;}
+  .wbody,.rg,.dl{grid-template-columns:1fr;}
+  footer{padding:28px 18px;}
+}
+@media(max-width:520px){
+  .hiw,.feat-grid,.songs-grid,.sec-grid,.wov,.kyc-steps,.comp-row,.steps-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-logo" onclick="go('home')">Music<span>Stock</span>X</div>
+  <div class="nav-links">
+    <a id="nl-how" onclick="go('how')">How it works</a>
+    <a id="nl-market" onclick="go('market')">Marketplace</a>
+    <a id="nl-royalties" onclick="go('royalties')">Royalties</a>
+    <a id="nl-security" onclick="go('security')">Security</a>
+  </div>
+  <div class="nav-right" id="navR">
+    <button class="btn-g" onclick="showAuth('login')">Login</button>
+    <button class="btn-p" onclick="showAuth('signup')">Get Started</button>
+  </div>
+</nav>
+
+<!-- ═══ TICKER (always visible) ═══ -->
+<div class="ticker-wrap"><div class="ticker" id="tickerEl"></div></div>
+
+<!-- ═══════════════ PAGES ═══════════════ -->
+
+<!-- HOME -->
+<div class="page active" id="pg-home">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div style="position:relative;z-index:1">
+        <div class="hero-tag">India's First Music Royalty Exchange</div>
+        <h1 class="hero-h1">Own the music.<br/><em>Earn every month.</em></h1>
+        <p class="hero-sub">Buy NFT tokens of songs from your favourite artists and receive real INR royalties paid directly to your bank — every single month.</p>
+        <div class="hero-actions">
+          <button class="btn-p" style="font-size:15px;padding:13px 30px" onclick="showAuth('signup')">Start with ₹499</button>
+          <button class="btn-o" style="font-size:15px;padding:12px 30px" onclick="go('market')">Explore Songs →</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="sn">₹4.2Cr</div><div class="sl">Royalties Distributed</div></div>
+          <div><div class="sn">18,400+</div><div class="sl">NFTs Issued</div></div>
+          <div><div class="sn">9.2%</div><div class="sl">Avg. Annual Yield</div></div>
+          <div><div class="sn">340+</div><div class="sl">Songs Listed</div></div>
+        </div>
+      </div>
+      <div class="wave" id="homeWave"></div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg2);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);padding:56px 0">
+    <div class="wrap">
+      <div class="lbl">How it works</div>
+      <h2 class="stitle">Four steps to royalty income</h2>
+      <div class="hiw">
+        <div class="hc"><div class="hn">01</div><h4>Create account</h4><p>Sign up with phone + OTP. Complete KYC in under 5 min.</p></div>
+        <div class="hc"><div class="hn">02</div><h4>Browse songs</h4><p>Pick from 340+ songs across genres with projected yields.</p></div>
+        <div class="hc"><div class="hn">03</div><h4>Buy NFT tokens</h4><p>Pay via UPI/card. NFT minted on Polygon instantly.</p></div>
+        <div class="hc"><div class="hn">04</div><h4>Earn royalties</h4><p>Monthly payouts hit your wallet. Withdraw to bank anytime.</p></div>
+      </div>
+      <div style="margin-top:22px"><button class="btn-o" onclick="go('how')">Learn more →</button></div>
+    </div>
+  </div>
+
+  <div class="wrap sec">
+    <div class="lbl">Featured</div>
+    <h2 class="stitle">Top songs this month</h2>
+    <div class="feat-grid" id="homeFeat"></div>
+    <div style="margin-top:20px"><button class="btn-o" onclick="go('market')">View all songs →</button></div>
+  </div>
+
+  <div class="cta">
+    <div style="position:relative;z-index:1">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px">Join 18,000+ investors</div>
+      <h2>Start earning royalties<br/><em>today.</em></h2>
+      <p>Your favourite songs are playing right now. Are you earning from them?</p>
+      <div class="cta-btns">
+        <button class="btn-p" style="font-size:15px;padding:13px 32px" onclick="showAuth('signup')">Create Free Account</button>
+        <button class="btn-o" style="font-size:15px;padding:12px 32px" onclick="go('security')">View Security</button>
+      </div>
+    </div>
+  </div>
+  <footer><div class="flogo">MusicStockX</div><div class="flinks"><a>Terms</a><a>Privacy</a><a>Compliance</a><a>Contact</a></div><div class="fcopy">© 2025 MusicStockX Pvt Ltd</div></footer>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="page pt" id="pg-how">
+  <div class="wrap sec">
+    <div class="lbl">Process</div>
+    <h2 class="stitle">How MusicStockX works</h2>
+    <p class="ssub">From signup to earning monthly royalties — step by step.</p>
+    <div class="steps-grid">
+      <div class="sc"><div class="scn">01</div><div class="sci">👤</div><h3>Create account + KYC</h3><p>Sign up with your phone number. Receive an OTP and verify. Then complete PAN, face-match, and bank verification — takes under 5 minutes.</p></div>
+      <div class="sc"><div class="scn">02</div><div class="sci">🎵</div><h3>Browse marketplace</h3><p>Explore 340+ songs across Bollywood, Indie, and Regional. See projected yields, stream data, and artist history before you invest.</p></div>
+      <div class="sc"><div class="scn">03</div><div class="sci">💳</div><h3>Buy NFT tokens</h3><p>Pay via UPI, card, or netbanking through Razorpay. Your ERC-1155 NFT is minted on Polygon within seconds of payment confirmation.</p></div>
+      <div class="sc"><div class="scn">04</div><div class="sci">🏦</div><h3>Receive royalties</h3><p>Every 1st of the month, royalties from streams, sync, and licensing are calculated and credited to your wallet. Withdraw to bank anytime.</p></div>
+    </div>
+
+    <div style="margin-top:56px">
+      <div class="lbl">KYC Process</div>
+      <h3 class="stitle">Verification in 3 steps</h3>
+      <p style="font-size:14px;color:var(--text2);margin-bottom:0">All verification handled in-app. Required by RBI PPI norms.</p>
+      <div class="kyc-steps">
+        <div class="kc"><div class="kb">✓ Step 1</div><h4>PAN Verification</h4><p>Enter your PAN number and date of birth. Verified against Income Tax database in real-time.</p></div>
+        <div class="kc"><div class="kb">✓ Step 2</div><h4>Face Match</h4><p>Take a quick selfie. AI matches it against your PAN photo using Digio's face verification.</p></div>
+        <div class="kc"><div class="kb">✓ Step 3</div><h4>Bank Account</h4><p>Add your Indian bank account. We do a ₹1 penny-drop to verify ownership in real-time.</p></div>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      <h3 style="font-size:20px;margin-bottom:6px">Royalty calculation formula</h3>
+      <p style="font-size:13px;color:var(--text2)">Transparent and verifiable. Every rupee accounted for.</p>
+      <div class="code-block">
+        <span style="color:var(--text3)">// Runs every 1st of the month</span><br/>
+        <span style="color:var(--green)">royalty_per_nft</span> = revenue_for_song ÷ total_nft_supply<br/>
+        <span style="color:var(--green)">your_payout</span>&nbsp;&nbsp;&nbsp;= royalty_per_nft × tokens_you_own<br/>
+        <span style="color:var(--text3)">// E.g. ₹50,000 revenue ÷ 1000 tokens = ₹50/token/month</span>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;text-align:center">
+      <button class="btn-p" style="font-size:15px;padding:13px 32px" onclick="showAuth('signup')">Start Investing Now</button>
+    </div>
+  </div>
+  <footer><div class="flogo">MusicStockX</div><div class="flinks"><a>Terms</a><a>Privacy</a><a>Compliance</a><a>Contact</a></div><div class="fcopy">© 2025 MusicStockX Pvt Ltd</div></footer>
+</div>
+
+<!-- MARKETPLACE -->
+<div class="page pt" id="pg-market">
+  <div class="wrap sec">
+    <div class="mtoolbar">
+      <div><div class="lbl">Marketplace</div><h2 class="stitle" style="margin-bottom:0">Browse songs</h2></div>
+      <div class="ftabs">
+        <button class="ftab act" onclick="filterSongs('all',this)">All</button>
+        <button class="ftab" onclick="filterSongs('bollywood',this)">Bollywood</button>
+        <button class="ftab" onclick="filterSongs('indie',this)">Indie</button>
+        <button class="ftab" onclick="filterSongs('regional',this)">Regional</button>
+      </div>
+    </div>
+    <div class="songs-grid" id="songsGrid"></div>
+  </div>
+  <footer><div class="flogo">MusicStockX</div><div class="flinks"><a>Terms</a><a>Privacy</a><a>Compliance</a><a>Contact</a></div><div class="fcopy">© 2025 MusicStockX Pvt Ltd</div></footer>
+</div>
+
+<!-- SONG DETAIL -->
+<div class="page pt" id="pg-detail">
+  <div class="wrap sec">
+    <div class="back-btn" onclick="go('market')">← Back to Marketplace</div>
+    <div class="dl" id="detailBody"></div>
+  </div>
+  <footer><div class="flogo">MusicStockX</div><div class="flinks"><a>Terms</a><a>Privacy</a><a>Compliance</a><a>Contact</a></div><div class="fcopy">© 2025 MusicStockX Pvt Ltd</div></footer>
+</div>
+
+<!-- WALLET -->
+<div class="page pt" id="pg-wallet">
+  <div class="wrap sec" id="walletBody"></div>
+  <footer><div class="flogo">MusicStockX</div><div class="flinks"><a>Terms</a><a>Privacy</a><a>Compliance</a><a>Contact</a></div><div class="fcopy">© 2025 MusicStockX Pvt Ltd</div></footer>
+</div>
+
+<!-- ROYALTIES -->
+<div class="page pt" id="pg-royalties">
+  <div class="wrap sec" id="royaltiesBody"></div>
+  <footer><div class="flogo">MusicStockX</div><div class="flinks"><a>Terms</a><a>Privacy</a><a>Compliance</a><a>Contact</a></div><div class="fcopy">© 2025 MusicStockX Pvt Ltd</div></footer>
+</div>
+
+<!-- SECURITY -->
+<div class="page pt" id="pg-security">
+  <div class="wrap sec">
+    <div class="lbl">Trust & Compliance</div>
+    <h2 class="stitle">Built for fintech compliance</h2>
+    <p class="ssub">Production-grade security, double-entry accounting, and full regulatory compliance from day one.</p>
+    <div class="sec-grid">
+      <div class="sec-c"><div class="sec-i">🔐</div><h3>Full KYC + PAN</h3><p>PAN verification, face match, and bank penny-drop. Fully compliant with RBI PPI norms and PMLA guidelines.</p></div>
+      <div class="sec-c"><div class="sec-i">📒</div><h3>Double-entry ledger</h3><p>Every rupee movement creates two auditable rows. Wallet balances are always reconcilable to the paisa. All amounts stored in paise — no floating point.</p></div>
+      <div class="sec-c"><div class="sec-i">⛓️</div><h3>Polygon blockchain</h3><p>ERC-1155 NFTs on Polygon PoS. Ownership is on-chain and publicly verifiable. 20-block confirmation before mint is finalised.</p></div>
+      <div class="sec-c"><div class="sec-i">🔄</div><h3>Idempotent payouts</h3><p>Every payout carries a unique idempotency key. Double-claim and duplicate royalty crediting is impossible by design.</p></div>
+      <div class="sec-c"><div class="sec-i">📸</div><h3>Immutable snapshots</h3><p>Ownership snapshots on the 1st are write-once. No row can ever be updated or deleted — a permanent, tamper-proof audit trail.</p></div>
+      <div class="sec-c"><div class="sec-i">🏦</div><h3>Razorpay + RazorpayX</h3><p>Regulated payment rails for collection and payout. IMPS/NEFT transfers only to KYC-verified Indian bank accounts.</p></div>
+    </div>
+    <div class="lbl" style="margin-top:44px">Regulatory Compliance</div>
+    <div class="comp-row">
+      <div class="cc"><div class="ck">✓</div><div><h4>RBI PPI Norms</h4><p>₹10,000/day for semi-KYC, ₹1,00,000 for full KYC. All payouts go to verified Indian bank accounts only.</p></div></div>
+      <div class="cc"><div class="ck">✓</div><div><h4>PMLA Compliance</h4><p>Complete KYC trail with PAN linkage. All transactions are logged and auditable for AML reporting.</p></div></div>
+      <div class="cc"><div class="ck">✓</div><div><h4>SEBI Audit Trail</h4><p>Monthly snapshot table creates an immutable ownership record for each royalty cycle — regulatorily auditable.</p></div></div>
+      <div class="cc"><div class="ck">✓</div><div><h4>Data Security</h4><p>All data encrypted at rest (AES-256) and in transit (TLS 1.3). KYC documents stored in encrypted S3 with access logs.</p></div></div>
+    </div>
+  </div>
+  <footer><div class="flogo">MusicStockX</div><div class="flinks"><a>Terms</a><a>Privacy</a><a>Compliance</a><a>Contact</a></div><div class="fcopy">© 2025 MusicStockX Pvt Ltd</div></footer>
+</div>
+
+<!-- ═══ AUTH MODAL ═══ -->
+<div class="mbg" id="authM">
+  <div class="mbox">
+    <button class="mclose" onclick="closeAuth()">✕</button>
+    <div id="authBody"></div>
+  </div>
+</div>
+
+<!-- ═══ BUY MODAL ═══ -->
+<div class="mbg" id="buyM">
+  <div class="mbox">
+    <button class="mclose" onclick="closeModal('buyM')">✕</button>
+    <div id="buyBody"></div>
+  </div>
+</div>
+
+<!-- ═══ WITHDRAW MODAL ═══ -->
+<div class="mbg" id="wdM">
+  <div class="mbox">
+    <button class="mclose" onclick="closeModal('wdM')">✕</button>
+    <div id="wdBody"></div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toastEl"><span id="toastIcon"></span><span id="toastMsg"></span></div>
+
+<script>
+// ══════════════ STATE ══════════════
+const S = {
+  user: null,
+  portfolio: [],   // [{songId, qty}]
+  wallet: {avail:0, pending:0, earned:0},
+  txns: []
+};
+
+// ══════════════ DATA ══════════════
+const SONGS = [
+  {id:1,title:'Kesariya',artist:'Arijit Singh',genre:'bollywood',e:'🎶',price:499,ypm:4.2,supply:1000,sold:847,bg:'#1a1208',streams:'240M',label:'T-Series',desc:'One of the biggest romantic anthems of 2022. From Brahmastra, this masterpiece clocks millions of streams monthly across all platforms, generating consistent royalty income.'},
+  {id:2,title:'Pasoori',artist:'Ali Sethi & Shae Gill',genre:'indie',e:'🌙',price:799,ypm:6.8,supply:500,sold:412,bg:'#0a1218',streams:'380M',label:'Coke Studio',desc:'A cross-border Coke Studio hit that became a global phenomenon. Featured in international films and shows, with strong sync licensing revenue adding to streaming royalties.'},
+  {id:3,title:'Tum Hi Ho',artist:'Mithoon',genre:'bollywood',e:'🌹',price:399,ypm:3.9,supply:2000,sold:1654,bg:'#130a12',streams:'820M',label:'T-Series',desc:'An evergreen classic from Aashiqui 2. Over a decade old and still generating massive streaming revenue — one of the most stable royalty-yielding assets on the platform.'},
+  {id:4,title:'Dum Dum',artist:'Prateek Kuhad',genre:'indie',e:'🎸',price:999,ypm:8.2,supply:300,sold:198,bg:'#0a1408',streams:'65M',label:'Independent',desc:'The indie darling with international recognition. Featured on Netflix\'s Never Have I Ever and global playlists. Premium yield due to active sync licensing deals.'},
+  {id:5,title:'Rowdy Baby',artist:'Yuvan Shankar Raja',genre:'regional',e:'💃',price:349,ypm:3.4,supply:3000,sold:2241,bg:'#181008',streams:'1.2B',label:'Sun Music',desc:'A Tamil mega-hit with over 1.2 billion YouTube views. Consistently one of the highest-streamed regional tracks on Spotify South Asia with strong royalty output.'},
+  {id:6,title:'Raataan Lambiyan',artist:'Jubin Nautiyal',genre:'bollywood',e:'⭐',price:649,ypm:5.5,supply:800,sold:534,bg:'#0f0a18',streams:'310M',label:'Sony Music',desc:'From the blockbuster Shershaah, this Jubin Nautiyal track topped charts for months. Continues to generate strong streaming royalties and radio broadcast fees.'},
+];
+
+const TICKER = [
+  {n:'KESARIYA',p:'₹499',c:'+2.4%',up:true},{n:'PASOORI',p:'₹799',c:'+5.1%',up:true},
+  {n:'TUM HI HO',p:'₹399',c:'-0.8%',up:false},{n:'DUM DUM',p:'₹999',c:'+11.2%',up:true},
+  {n:'ROWDY BABY',p:'₹349',c:'+1.9%',up:true},{n:'RAATAAN',p:'₹649',c:'+3.3%',up:true},
+  {n:'GERUA',p:'₹599',c:'-1.2%',up:false},{n:'ILAHI',p:'₹449',c:'+4.0%',up:true},
+];
+
+const BAR = [{m:'Oct',v:3200},{m:'Nov',v:3800},{m:'Dec',v:4100},{m:'Jan',v:3600},{m:'Feb',v:4800},{m:'Mar',v:5200},{m:'Apr',v:4600},{m:'May',v:5800}];
+
+// ══════════════ ROUTING ══════════════
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('pg-' + id);
+  if (!pg) return;
+  pg.classList.add('active');
+  window.scrollTo(0, 0);
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('act'));
+  const nl = document.getElementById('nl-' + id);
+  if (nl) nl.classList.add('act');
+  if (id === 'market') renderMarket();
+  if (id === 'home') renderHome();
+  if (id === 'wallet') renderWallet();
+  if (id === 'royalties') renderRoyalties();
+}
+
+// ══════════════ TICKER ══════════════
+(function() {
+  const all = [...TICKER, ...TICKER];
+  document.getElementById('tickerEl').innerHTML = all.map(t =>
+    `<div class="ti"><div class="td"></div><span class="tn">${t.n}</span><span class="tp">${t.p}</span><span class="${t.up?'up':'dn'}">${t.up?'▲':'▼'} ${t.c}</span></div>`
+  ).join('');
+})();
+
+// ══════════════ WAVEFORM ══════════════
+(function() {
+  const el = document.getElementById('homeWave');
+  for (let i = 0; i < 36; i++) {
+    const b = document.createElement('div');
+    b.className = 'wb';
+    b.style.cssText = `height:${20 + Math.random() * 160}px;animation-delay:${(i/36*1.4).toFixed(2)}s;opacity:${.25+Math.random()*.5}`;
+    el.appendChild(b);
+  }
+})();
+
+// ══════════════ HOME ══════════════
+function renderHome() {
+  document.getElementById('homeFeat').innerHTML = SONGS.slice(0, 6).map(s => `
+    <div class="fc" onclick="openDetail(${s.id})" style="background:${s.bg}20">
+      <div class="fe">${s.e}</div>
+      <div class="ft">${s.title}</div>
+      <div class="fa">${s.artist}</div>
+      <div style="font-size:11px;color:var(--text3)">${s.streams} streams · ${s.label}</div>
+      <div class="fr"><div class="fp">₹${s.price}</div><div class="fy">+₹${s.ypm}/mo</div></div>
+    </div>`).join('');
+}
+
+// ══════════════ MARKETPLACE ══════════════
+function renderMarket(filter = 'all') {
+  const list = filter === 'all' ? SONGS : SONGS.filter(s => s.genre === filter);
+  document.getElementById('songsGrid').innerHTML = list.map(s => {
+    const pct = Math.round(s.sold / s.supply * 100);
+    const rem = s.supply - s.sold;
+    return `
+    <div class="scard" onclick="openDetail(${s.id})" style="background:${s.bg}28">
+      <div class="sart" style="background:${s.bg}">
+        <div class="rings"><div class="ring" style="width:150px;height:150px"></div><div class="ring" style="width:100px;height:100px;animation-delay:.6s"></div></div>
+        <div class="semoji">${s.e}</div>
+        <div class="pov"><button class="pbtn">▶</button></div>
+      </div>
+      <div class="sinfo">
+        <div class="sg">${s.genre}</div>
+        <div class="stitle2">${s.title}</div>
+        <div class="sartist">${s.artist}</div>
+        <div class="prog-w">
+          <div class="prog-l"><span>${pct}% sold</span><span>${rem.toLocaleString()} left</span></div>
+          <div class="prog-b"><div class="prog-f" style="width:${pct}%"></div></div>
+        </div>
+        <div class="sfooter">
+          <div><div class="plbl">Per token</div><div class="pval">₹${s.price}</div></div>
+          <div style="text-align:right"><div class="ylbl">Est. monthly</div><div class="yval">+₹${s.ypm}</div></div>
+        </div>
+        <button class="sbtn" onclick="event.stopPropagation();doBuy(${s.id})">Buy tokens →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterSongs(f, el) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('act'));
+  el.classList.add('act');
+  renderMarket(f);
+}
+
+// ══════════════ DETAIL ══════════════
+function openDetail(id) {
+  const s = SONGS.find(x => x.id === id);
+  if (!s) return;
+  const pct = Math.round(s.sold / s.supply * 100);
+  const rem = s.supply - s.sold;
+  const annYield = ((s.ypm * 12 / s.price) * 100).toFixed(1);
+  document.getElementById('detailBody').innerHTML = `
+    <div>
+      <div class="dart" style="background:${s.bg}">
+        <div class="rings"><div class="ring" style="width:200px;height:200px;position:absolute"></div><div class="ring" style="width:140px;height:140px;position:absolute;animation-delay:.5s"></div></div>
+        <div style="font-size:72px;position:relative;z-index:1">${s.e}</div>
+      </div>
+      <div class="dstats" style="margin-top:20px">
+        <div class="dst"><div class="dsl">Total streams</div><div class="dsv">${s.streams}</div></div>
+        <div class="dst"><div class="dsl">Music label</div><div class="dsv">${s.label}</div></div>
+        <div class="dst"><div class="dsl">Total supply</div><div class="dsv">${s.supply.toLocaleString()}</div></div>
+        <div class="dst"><div class="dsl">Remaining</div><div class="dsv green">${rem.toLocaleString()}</div></div>
+      </div>
+      <div class="prog-w" style="margin-top:16px">
+        <div class="prog-l"><span>${pct}% sold</span><span>${rem.toLocaleString()} tokens left</span></div>
+        <div class="prog-b" style="height:4px"><div class="prog-f" style="width:${pct}%"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="dg">${s.genre}</div>
+      <div class="dt">${s.title}</div>
+      <div class="dar">${s.artist}</div>
+      <div class="ddesc">${s.desc}</div>
+      <div class="buy-panel">
+        <div style="margin-bottom:14px">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Price per token</div>
+          <div style="font-family:'Playfair Display',serif;font-size:38px;color:var(--gold)">₹${s.price}</div>
+          <div style="font-size:12px;color:var(--green);margin-top:2px">Est. ₹${s.ypm} monthly royalty per token</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);margin-bottom:14px">
+          <span style="font-size:13px;color:var(--text2)">Estimated annual yield</span>
+          <span style="font-family:'DM Mono',monospace;font-size:14px;color:var(--green)">${annYield}%</span>
+        </div>
+        <button class="rbtn" onclick="doBuy(${s.id})">Buy Tokens →</button>
+        <div class="snote">🔒 Secured by Razorpay · NFT on Polygon</div>
+      </div>
+    </div>`;
+  go('detail');
+}
+
+// ══════════════ AUTH ══════════════
+let aMode = 'signup', aStep = 1;
+
+function showAuth(mode) {
+  aMode = mode; aStep = 1;
+  renderAuth();
+  document.getElementById('authM').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAuth() {
+  document.getElementById('authM').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('authM').addEventListener('click', e => {
+  if (e.target === document.getElementById('authM')) closeAuth();
+});
+
+function renderAuth() {
+  const el = document.getElementById('authBody');
+  const dots = [1,2,3].map(i => `<div class="sdot ${aStep>=i?'act':''}"></div>`).join('');
+
+  if (aMode === 'login') {
+    el.innerHTML = `
+      <div class="mtabs">
+        <button class="mtab" onclick="aMode='signup';aStep=1;renderAuth()">Sign Up</button>
+        <button class="mtab act">Login</button>
+      </div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px">Welcome back</h3>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:22px">Login to your MusicStockX account</div>
+      <div class="err" id="authErr"></div>
+      ${aStep===1 ? `
+        <div class="ig"><label class="il">Mobile number</label><input class="inp" id="l-phone" type="tel" placeholder="+91 98765 43210"/></div>
+        <button class="rbtn" onclick="loginStep2()">Send OTP →</button>
+      ` : `
+        <div style="font-size:13px;color:var(--text2);margin-bottom:14px">OTP sent to your mobile · Demo: enter any 4 digits</div>
+        <div class="ig"><label class="il">Enter 4-digit OTP</label>
+          <div class="otp-row">${[0,1,2,3].map(()=>`<input class="oi" maxlength="1" oninput="otpTab(this)"/>`).join('')}</div>
+        </div>
+        <button class="rbtn" onclick="loginDone()">Verify & Login →</button>
+        <div style="font-size:12px;color:var(--gold);cursor:pointer;text-align:center;margin-top:10px" onclick="aStep=1;renderAuth()">← Change number</div>
+      `}
+      <div class="aswitch">Don't have an account? <a onclick="aMode='signup';aStep=1;renderAuth()">Sign up</a></div>`;
+    return;
+  }
+
+  // signup
+  const titles = ['Basic details','Verify OTP','KYC Verification'];
+  el.innerHTML = `
+    <div class="mtabs">
+      <button class="mtab act">Sign Up</button>
+      <button class="mtab" onclick="aMode='login';aStep=1;renderAuth()">Login</button>
+    </div>
+    <div class="step-dots">${dots}</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px">${['Create account','Verify OTP','KYC Verification'][aStep-1]}</h3>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:20px">Step ${aStep} of 3 — ${titles[aStep-1]}</div>
+    <div class="err" id="authErr"></div>
+    ${aStep===1 ? `
+      <div class="ig"><label class="il">Full name (as per PAN)</label><input class="inp" id="su-name" type="text" placeholder="Rahul Sharma"/></div>
+      <div class="ig"><label class="il">Mobile number</label><input class="inp" id="su-phone" type="tel" placeholder="+91 98765 43210"/></div>
+      <div class="ig"><label class="il">Email address</label><input class="inp" id="su-email" type="email" placeholder="rahul@example.com"/></div>
+      <button class="rbtn" onclick="signupStep2()">Send OTP →</button>
+    ` : aStep===2 ? `
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">OTP sent to your mobile · Demo: enter any 4 digits</div>
+      <div class="ig"><label class="il">Enter 4-digit OTP</label>
+        <div class="otp-row">${[0,1,2,3].map(()=>`<input class="oi" maxlength="1" oninput="otpTab(this)"/>`).join('')}</div>
+      </div>
+      <button class="rbtn" onclick="signupStep3()">Verify OTP →</button>
+      <div style="font-size:12px;color:var(--gold);cursor:pointer;text-align:center;margin-top:10px" onclick="aStep=1;renderAuth()">← Back</div>
+    ` : `
+      <div class="ig"><label class="il">PAN Number</label><input class="inp" id="su-pan" type="text" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase"/></div>
+      <div class="ig"><label class="il">Date of Birth</label><input class="inp" id="su-dob" type="date"/></div>
+      <div class="ig"><label class="il">Bank Account Number</label><input class="inp" id="su-bank" type="text" placeholder="1234567890"/></div>
+      <div class="ig"><label class="il">IFSC Code</label><input class="inp" id="su-ifsc" type="text" placeholder="HDFC0001234"/></div>
+      <button class="rbtn" onclick="signupDone()">Complete KYC & Start Investing →</button>
+      <div class="snote">🔐 RBI compliant · Encrypted · Penny-drop verified</div>
+    `}
+    ${aStep<3 ? `<div class="aswitch">Already have an account? <a onclick="aMode='login';aStep=1;renderAuth()">Login</a></div>` : ''}`;
+}
+
+function showErr(msg) {
+  const e = document.getElementById('authErr');
+  if (e) { e.textContent = msg; e.style.display = 'block'; }
+}
+
+function otpTab(el) {
+  if (el.value.length === 1 && el.nextElementSibling) el.nextElementSibling.focus();
+}
+
+function signupStep2() {
+  const name = document.getElementById('su-name')?.value?.trim();
+  const phone = document.getElementById('su-phone')?.value?.trim();
+  const email = document.getElementById('su-email')?.value?.trim();
+  if (!name) { showErr('Please enter your full name'); return; }
+  if (!phone) { showErr('Please enter your mobile number'); return; }
+  if (!email) { showErr('Please enter your email'); return; }
+  S._signupData = { name, phone, email };
+  aStep = 2; renderAuth();
+}
+
+function signupStep3() {
+  const inputs = document.querySelectorAll('.oi');
+  const otp = [...inputs].map(i => i.value).join('');
+  if (otp.length < 4) { showErr('Please enter the 4-digit OTP'); return; }
+  aStep = 3; renderAuth();
+}
+
+function signupDone() {
+  const pan = document.getElementById('su-pan')?.value?.trim();
+  const dob = document.getElementById('su-dob')?.value;
+  const bank = document.getElementById('su-bank')?.value?.trim();
+  const ifsc = document.getElementById('su-ifsc')?.value?.trim();
+  if (!pan || pan.length < 10) { showErr('Please enter a valid PAN number'); return; }
+  if (!dob) { showErr('Please enter your date of birth'); return; }
+  if (!bank) { showErr('Please enter your bank account number'); return; }
+  if (!ifsc) { showErr('Please enter IFSC code'); return; }
+  const d = S._signupData || {};
+  completeLogin(d.name || 'Investor');
+}
+
+function loginStep2() {
+  const phone = document.getElementById('l-phone')?.value?.trim();
+  if (!phone) { showErr('Please enter your mobile number'); return; }
+  aStep = 2; renderAuth();
+}
+
+function loginDone() {
+  const inputs = document.querySelectorAll('.oi');
+  const otp = [...inputs].map(i => i.value).join('');
+  if (otp.length < 4) { showErr('Please enter the 4-digit OTP'); return; }
+  completeLogin('Investor');
+}
+
+function completeLogin(name) {
+  const initials = name.split(' ').filter(Boolean).map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'IN';
+  S.user = { name, initials };
+  S.wallet = { avail: 12840, pending: 3240, earned: 48620 };
+  S.portfolio = [{songId:1,qty:10},{songId:2,qty:8},{songId:3,qty:11},{songId:4,qty:5}];
+  S.txns = [
+    {tp:'cr',ic:'💰',t:'Royalty — Kesariya',d:'01 May 2025',a:'+₹840',cls:'cr'},
+    {tp:'cr',ic:'💰',t:'Royalty — Pasoori',d:'01 May 2025',a:'+₹612',cls:'cr'},
+    {tp:'nf',ic:'🎵',t:'Bought 2× Dum Dum NFT',d:'28 Apr 2025',a:'−₹1,998',cls:'db'},
+    {tp:'db',ic:'🏦',t:'Withdrawal to HDFC ****2341',d:'15 Apr 2025',a:'−₹5,000',cls:'db'},
+    {tp:'cr',ic:'💰',t:'Royalty — Tum Hi Ho',d:'01 Apr 2025',a:'+₹390',cls:'cr'},
+  ];
+  closeAuth();
+  updateNav();
+  toast('🎉', `Welcome to MusicStockX, ${name.split(' ')[0]}!`, 'suc');
+}
+
+function logout() {
+  S.user = null; S.portfolio = []; S.txns = [];
+  S.wallet = {avail:0,pending:0,earned:0};
+  updateNav();
+  go('home');
+  toast('👋', 'Logged out successfully.');
+}
+
+function updateNav() {
+  const el = document.getElementById('navR');
+  if (S.user) {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:9px;cursor:pointer" onclick="go('wallet')">
+        <div class="nav-avatar">${S.user.initials}</div>
+        <span style="font-size:13px;color:var(--text2)">${S.user.name.split(' ')[0]}</span>
+      </div>
+      <button class="btn-g" onclick="logout()">Logout</button>`;
+  } else {
+    el.innerHTML = `<button class="btn-g" onclick="showAuth('login')">Login</button><button class="btn-p" onclick="showAuth('signup')">Get Started</button>`;
+  }
+}
+
+// ══════════════ BUY ══════════════
+let bSong = null, bQty = 1;
+
+function doBuy(id) {
+  if (!S.user) { showAuth('signup'); return; }
+  bSong = SONGS.find(s => s.id === id);
+  bQty = 1;
+  renderBuy();
+  document.getElementById('buyM').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderBuy() {
+  const s = bSong;
+  document.getElementById('buyBody').innerHTML = `
+    <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:3px">${s.title}</h3>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:20px">${s.artist} · ${s.genre}</div>
+    <div class="ig">
+      <label class="il">Number of tokens</label>
+      <div class="qrow">
+        <button class="qbtn" onclick="chQty(-1)">−</button>
+        <div class="qd" id="qtyD">${bQty}</div>
+        <button class="qbtn" onclick="chQty(1)">+</button>
+      </div>
+    </div>
+    <div id="buyBreak"></div>
+    <button class="rbtn" onclick="confirmBuy()">Pay via Razorpay →</button>
+    <div class="snote">🔒 Razorpay secured · NFT minted on Polygon after payment</div>`;
+  updBuy();
+}
+
+function chQty(d) {
+  bQty = Math.max(1, Math.min(50, bQty + d));
+  document.getElementById('qtyD').textContent = bQty;
+  updBuy();
+}
+
+function updBuy() {
+  const s = bSong, total = s.price * bQty;
+  document.getElementById('buyBreak').innerHTML = `
+    <div class="pb">
+      <div class="pbr"><span class="pbl">Price per token</span><span class="pbv">₹${s.price}</span></div>
+      <div class="pbr"><span class="pbl">Quantity</span><span class="pbv">${bQty} tokens</span></div>
+      <div class="pbr"><span class="pbl">Est. monthly royalty</span><span class="pbv" style="color:var(--green)">₹${(s.ypm*bQty).toFixed(2)}</span></div>
+      <div class="pbr"><span class="pbl">Platform fee</span><span class="pbv">₹0</span></div>
+      <div class="pbr tot"><span class="pbl" style="color:var(--text);font-weight:500">Total</span><span class="pbv">₹${total.toLocaleString()}</span></div>
+    </div>`;
+}
+
+function confirmBuy() {
+  const s = bSong, cost = s.price * bQty;
+  const ex = S.portfolio.find(p => p.songId === s.id);
+  if (ex) ex.qty += bQty; else S.portfolio.push({songId: s.id, qty: bQty});
+  S.txns.unshift({tp:'nf',ic:'🎵',t:`Bought ${bQty}× ${s.title} NFT`,d:'Just now',a:`−₹${cost.toLocaleString()}`,cls:'db'});
+  closeModal('buyM');
+  toast('🎉', `${bQty}× ${s.title} purchased! Minting on Polygon…`, 'suc');
+  setTimeout(() => toast('⛓️', 'NFT minted on Polygon successfully.', 'suc'), 2600);
+}
+
+// ══════════════ WALLET ══════════════
+function renderWallet() {
+  const el = document.getElementById('walletBody');
+  if (!S.user) {
+    el.innerHTML = `<div class="locked"><div class="lock-icon">🔒</div><h2>Login to view your wallet</h2><p>Create an account or login to see your portfolio, balances, and transaction history.</p><div class="locked-btns"><button class="btn-p" onclick="showAuth('signup')">Create Account</button><button class="btn-o" onclick="showAuth('login')">Login</button></div></div>`;
+    return;
+  }
+  const w = S.wallet;
+  const totalNFTs = S.portfolio.reduce((a, p) => a + p.qty, 0);
+  const holdingsHtml = S.portfolio.length ? S.portfolio.map(p => {
+    const s = SONGS.find(x => x.id === p.songId); if (!s) return '';
+    return `<div class="hl" onclick="openDetail(${s.id})">
+      <div class="hi">${s.e}</div>
+      <div class="hif"><div class="ht">${s.title}</div><div class="ha">${s.artist}</div></div>
+      <div class="hr"><div class="hq">${p.qty}</div><div class="hql">tokens</div><div class="he">+₹${(s.ypm*p.qty).toFixed(0)}/mo</div></div>
+    </div>`;
+  }).join('') : `<div style="padding:16px;font-size:13px;color:var(--text3)">No holdings yet. <span style="color:var(--gold);cursor:pointer" onclick="go('market')">Browse songs →</span></div>`;
+
+  const txnsHtml = S.txns.map(t => `
+    <div class="txi">
+      <div class="txic ${t.tp}">${t.ic}</div>
+      <div class="txd"><div class="txt">${t.t}</div><div class="txdt">${t.d}</div></div>
+      <div class="txa ${t.cls}">${t.a}</div>
+    </div>`).join('') || `<div style="padding:16px;font-size:13px;color:var(--text3)">No transactions yet.</div>`;
+
+  el.innerHTML = `
+    <div class="lbl">Portfolio</div>
+    <h2 class="stitle">My Wallet</h2>
+    <div class="wov" style="margin-top:28px">
+      <div class="wc main"><div class="wlbl">Available Balance</div><div class="wval">₹${w.avail.toLocaleString()}</div><div class="wsub">Ready to withdraw</div></div>
+      <div class="wc"><div class="wlbl">Pending (settling)</div><div class="wval" style="font-size:22px">₹${w.pending.toLocaleString()}</div><div class="wsub">T+2 clearing</div></div>
+      <div class="wc"><div class="wlbl">Total Earned</div><div class="wval" style="font-size:22px;color:var(--green)">₹${w.earned.toLocaleString()}</div><div class="wsub">All time</div></div>
+      <div class="wc"><div class="wlbl">NFTs Owned</div><div class="wval" style="font-size:22px">${totalNFTs}</div><div class="wsub">${S.portfolio.length} songs</div></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap">
+      <button class="btn-p" onclick="showWithdraw()">Withdraw to Bank</button>
+      <button class="btn-o" onclick="go('market')">Buy More Tokens</button>
+      <button class="btn-o" onclick="go('royalties')">View Royalties</button>
+    </div>
+    <div class="wbody">
+      <div class="panel"><div class="ptitle">Recent Transactions</div><div class="txn-list">${txnsHtml}</div></div>
+      <div class="panel"><div class="ptitle">My Holdings</div><div class="hl-list">${holdingsHtml}</div></div>
+    </div>`;
+}
+
+// ══════════════ WITHDRAW ══════════════
+function showWithdraw() {
+  if (!S.user) { showAuth('login'); return; }
+  document.getElementById('wdBody').innerHTML = `
+    <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px">Withdraw Funds</h3>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:20px">Transfer to your KYC-verified bank account.</div>
+    <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:11px 14px;margin-bottom:16px;font-size:13px">
+      Available: <span style="font-family:'DM Mono',monospace;color:var(--gold)">₹${S.wallet.avail.toLocaleString()}</span>
+    </div>
+    <div class="ig"><label class="il">Amount (₹)</label><input class="inp" type="number" id="wdAmt" placeholder="Enter amount" oninput="calcFee(this.value)" min="100"/></div>
+    <div id="feeBox"></div>
+    <div id="feeWarn" style="display:none" class="fwarn"></div>
+    <button class="rbtn" id="wdConfirm" style="display:none" onclick="doWithdraw()">Confirm Withdrawal →</button>
+    <div class="snote">Processed via RazorpayX · IMPS/NEFT · 24hr settlement</div>`;
+  document.getElementById('wdM').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function calcFee(val) {
+  const amt = parseInt(val);
+  const fb = document.getElementById('feeBox');
+  const fw = document.getElementById('feeWarn');
+  const wb = document.getElementById('wdConfirm');
+  fb.innerHTML = ''; fw.style.display = 'none'; wb.style.display = 'none';
+  if (!amt || amt < 100) return;
+  if (amt > S.wallet.avail) { fw.style.display = 'block'; fw.textContent = '⚠️ Amount exceeds available balance.'; return; }
+  const fee = Math.max(Math.round(amt * 0.025), 5);
+  const net = amt - fee;
+  const pct = (fee / amt * 100).toFixed(1);
+  fb.innerHTML = `<div class="pb">
+    <div class="pbr"><span class="pbl">Gross amount</span><span class="pbv">₹${amt.toLocaleString()}</span></div>
+    <div class="pbr"><span class="pbl">Platform fee (2.5%)</span><span class="pbv">₹${fee.toLocaleString()} (${pct}%)</span></div>
+    <div class="pbr tot"><span class="pbl" style="color:var(--text);font-weight:500">You receive</span><span class="pbv">₹${net.toLocaleString()}</span></div>
+  </div>`;
+  if (parseFloat(pct) > 5) { fw.style.display = 'block'; fw.textContent = `⚠️ Fee is ${pct}% — higher than usual. Withdraw a larger amount to reduce the fee %.`; }
+  wb.style.display = 'flex';
+}
+
+function doWithdraw() {
+  const amt = parseInt(document.getElementById('wdAmt').value);
+  const fee = Math.max(Math.round(amt * 0.025), 5);
+  S.wallet.avail -= amt;
+  S.txns.unshift({tp:'db',ic:'🏦',t:'Withdrawal to verified bank',d:'Just now',a:`−₹${amt.toLocaleString()}`,cls:'db'});
+  closeModal('wdM');
+  toast('🏦', `₹${(amt-fee).toLocaleString()} will arrive in your bank within 24 hours.`, 'suc');
+  renderWallet();
+}
+
+// ══════════════ ROYALTIES ══════════════
+function renderRoyalties() {
+  const el = document.getElementById('royaltiesBody');
+  if (!S.user) {
+    el.innerHTML = `<div class="locked"><div class="lock-icon">💰</div><h2>Login to view royalties</h2><p>See your monthly earnings history, upcoming payouts, and snapshot records.</p><div class="locked-btns"><button class="btn-p" onclick="showAuth('signup')">Create Account</button><button class="btn-o" onclick="showAuth('login')">Login</button></div></div>`;
+    return;
+  }
+  const maxV = Math.max(...BAR.map(b => b.v));
+  const barsHtml = BAR.map(b => `
+    <div class="bw">
+      <div class="bar" style="height:${Math.round((b.v/maxV)*130)+8}px"><div class="btt">₹${b.v.toLocaleString()}</div></div>
+      <div class="bl">${b.m}</div>
+    </div>`).join('');
+
+  const rhHtml = [
+    {m:'May 2025',a:'₹5,800',s:'4 songs'},{m:'April 2025',a:'₹4,600',s:'4 songs'},
+    {m:'March 2025',a:'₹5,200',s:'4 songs'},{m:'February 2025',a:'₹4,800',s:'3 songs'},
+    {m:'January 2025',a:'₹3,600',s:'3 songs'},
+  ].map(r => `<div class="ri"><div class="rim">${r.m}</div><div class="rir"><div class="ria">${r.a}</div><div class="ris">${r.s}</div></div></div>`).join('');
+
+  const snapRows = S.portfolio.map(p => {
+    const s = SONGS.find(x => x.id === p.songId); if (!s) return '';
+    return `<tr>
+      <td>${s.title}</td>
+      <td class="mono">${p.qty}</td>
+      <td class="mono">₹${(s.ypm * p.qty).toFixed(2)}</td>
+      <td class="mono">₹${(s.ypm * p.qty * 12).toFixed(2)}</td>
+      <td><span class="bdg s">Settled</span></td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="lbl">Earnings</div>
+    <h2 class="stitle">Royalty History</h2>
+    <p class="ssub" style="margin-bottom:36px">Monthly royalties calculated on the 1st. Pending → Available within 48 hours.</p>
+    <div class="rg">
+      <div class="cp">
+        <div class="ch"><div class="ct">Monthly royalties (INR)</div><div class="cv">₹48,620 total</div></div>
+        <div class="bc">${barsHtml}</div>
+      </div>
+      <div class="rh"><div class="rht">Payout history</div>${rhHtml}</div>
+    </div>
+    <h3 style="font-size:18px;margin:36px 0 8px">May 2025 — Ownership Snapshot</h3>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Immutable snapshot taken on May 1st 2025. Basis for this month's royalty distribution.</p>
+    <table class="stable">
+      <thead><tr><th>Song</th><th>Tokens</th><th>Monthly Royalty</th><th>Annual Estimate</th><th>Status</th></tr></thead>
+      <tbody>${snapRows || '<tr><td colspan="5" style="color:var(--text3)">No snapshot data yet.</td></tr>'}</tbody>
+    </table>`;
+}
+
+// ══════════════ MODAL UTILS ══════════════
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('buyM').addEventListener('click', e => { if(e.target===document.getElementById('buyM')) closeModal('buyM'); });
+document.getElementById('wdM').addEventListener('click', e => { if(e.target===document.getElementById('wdM')) closeModal('wdM'); });
+
+// ══════════════ TOAST ══════════════
+let toastT;
+function toast(icon, msg, type = '') {
+  const el = document.getElementById('toastEl');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastMsg').textContent = msg;
+  el.className = 'toast ' + type;
+  el.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove('show'), 3600);
+}
+
+// ══════════════ INIT ══════════════
+renderHome();
+renderMarket();
+</script>
+</body>
+</html>
